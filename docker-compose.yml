@@ -1,0 +1,79 @@
+version: '3.7'
+
+services:
+  epcvip-react-test.app:
+    container_name: epcvip-react-test.app
+    build:
+      context: .
+      dockerfile: Dockerfile.app
+    volumes:
+      - '.:/usr/app'
+      - '/usr/app/node_modules'
+    ports:
+      - 8089:4200
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+      - CI=true
+    stdin_open: true
+    networks:
+      - epcvip-react-test.network
+
+  epcvip-react-test.mysql:
+    image: mysql:5.7.37
+    container_name: epcvip-react-test.mysql
+    ports: ['3314:3306']
+    volumes:
+      - ./docker/data/db:/var/lib/mysql
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=node-mysql-crud-api
+      - MYSQL_USER=crud
+      - MYSQL_PASSWORD=test1234
+    networks:
+      - epcvip-react-test.network
+    command: --sql_mode="NO_ENGINE_SUBSTITUTION"
+    restart: unless-stopped
+
+  epcvip-react-test.auth_server:
+    container_name: epcvip-react-test.auth_server
+    build:
+      context: ./auth_server
+      dockerfile: Dockerfile
+    volumes:
+      - '.:/usr/app'
+      - '/usr/app/node_modules'
+    ports:
+      - 8090:8000
+    environment:
+      - CHOKIDAR_USEPOLLING=true
+      - CI=true
+    stdin_open: true
+    networks:
+      - epcvip-react-test.network
+
+  # epcvip-react-test.crud:
+  #   container_name: epcvip-react-test.crud
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile.crud
+  #   volumes:
+  #     - '.:/usr/app'
+  #     - '/usr/app/node_modules'
+  #   ports:
+  #     - 8092:3333
+  #   environment:
+  #     - CHOKIDAR_USEPOLLING=true
+  #     - CI=true
+  #   stdin_open: true
+  #   networks:
+  #     - epcvip-react-test.network
+
+volumes:
+  epcvip-react-test.mysql: 
+
+networks:
+    epcvip-react-test.network:
+        ipam:
+            driver: default
+            config:
+                - subnet: 172.16.4.0/24

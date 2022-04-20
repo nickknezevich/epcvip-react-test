@@ -1,0 +1,23 @@
+{
+  "root": "libs/ux/forms/login",
+  "sourceRoot": "libs/ux/forms/login/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/ux/forms/login/**/*.{ts,tsx,js,jsx}"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/ux/forms/login"],
+      "options": {
+        "jestConfig": "libs/ux/forms/login/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  }
+}

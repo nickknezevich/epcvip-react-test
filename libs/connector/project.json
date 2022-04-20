@@ -1,0 +1,23 @@
+{
+  "root": "libs/connector",
+  "sourceRoot": "libs/connector/src",
+  "projectType": "library",
+  "tags": [],
+  "targets": {
+    "lint": {
+      "executor": "@nrwl/linter:eslint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["libs/connector/**/*.{ts,tsx,js,jsx}"]
+      }
+    },
+    "test": {
+      "executor": "@nrwl/jest:jest",
+      "outputs": ["coverage/libs/connector"],
+      "options": {
+        "jestConfig": "libs/connector/jest.config.js",
+        "passWithNoTests": true
+      }
+    }
+  }
+}
