@@ -8,3 +8,11 @@
 
 ```http://localhost:8089```
 
+## Login
+
+```
+{
+  "email": "nilson@email.com",
+  "password":"nilson"
+}
+```
