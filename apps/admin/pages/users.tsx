@@ -12,15 +12,13 @@ const Users = () => {
 
   useEffect(() => {
     
-    console.log('fetching users')
-
+    console.info('fetching users')
     fetchUsers().then((response) => {
       dispatch({
         type: 'ADD_USERS',
         payload: response.data.data
       })
-      console.log(response)
-      console.log('users fetched')
+      console.info('users fetched')
     }).catch((e) => {
       console.log(e)
     });

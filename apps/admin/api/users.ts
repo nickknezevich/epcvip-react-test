@@ -5,7 +5,7 @@ const USERS_API_URL = 'https://reqres.in/api'
 export const addUser =  async (values) => {
   executePostRequest(USERS_API_URL+'/api/users', values)
       .then((response: any) => {
-        
+
         return response.data.data
       })
       .catch((error: any) => {
@@ -13,5 +13,5 @@ export const addUser =  async (values) => {
       });
 }
 export const fetchUsers = async () => {
-    return executeGetRequest(USERS_API_URL+'/users?page=1&per_page=10',{});
+    return executeGetRequest(USERS_API_URL+'/users?page=1&per_page=20',{});
   };
