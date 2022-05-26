@@ -27,14 +27,15 @@ import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
-//import { reducer, initialState } from '../../store/reducer/userReducer';
+import { useUsers } from '../../store/context/user-context';
 
-export const UserListResults = ({ users, ...rest }) => {
+export const UserListResults = ({ users, handleDeleteUser, handleAddUser, ...rest }) => {
   const [selectedUserIds, setSelectedUserIds] = useState([]);
   const [limit, setLimit] = useState(5);
   const [page, setPage] = useState(0);
   const [current, setCurrent] = useState(0);
   const [openDialog, setOpenDialog] = useState(false);
+  const { dispatch } = useUsers();
 
   const handleOpenDialog = () => {
     setOpenDialog(true);
@@ -49,8 +50,6 @@ export const UserListResults = ({ users, ...rest }) => {
     deleteMultipleUsers();
   };
   const router = useRouter();
-  const reducer = useReducer;
-  // const [ {users}, dispatch] = useReducer(reducer, initialState);
 
   const addUser = () => {
     router.push('/users/add');
@@ -111,8 +110,6 @@ export const UserListResults = ({ users, ...rest }) => {
     });
   };
 
-  console.log(users.length)
-
   return (
     <>
       <Dialog
@@ -159,7 +156,7 @@ export const UserListResults = ({ users, ...rest }) => {
               Delete Multiple Users
             </Button>
             <Button
-              onClick={addUser}
+              onClick={handleAddUser}
               endIcon={<AddCircleIcon />}
               color="success"
             >
@@ -189,11 +186,11 @@ export const UserListResults = ({ users, ...rest }) => {
                   <TableCell>Email</TableCell>
                   <TableCell>First Name</TableCell>
                   <TableCell>Last Name</TableCell>
+                  <TableCell>Action</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>
-               
-                {users.slice(page*limit, page * limit + 5).map((User) => (
+                {users.slice(page * limit, page * limit + 5).map((User) => (
                   <TableRow
                     hover
                     key={User.id}
@@ -224,6 +221,14 @@ export const UserListResults = ({ users, ...rest }) => {
                     <TableCell>{User.email}</TableCell>
                     <TableCell>{User.first_name}</TableCell>
                     <TableCell>{User.last_name}</TableCell>
+                    <TableCell>
+                      <IconButton
+                        aria-label="delete"
+                        onClick={(e) => handleDeleteUser(User.id)}
+                      >
+                        <DeleteIcon />
+                      </IconButton>
+                    </TableCell>
                   </TableRow>
                 ))}
               </TableBody>
@@ -232,14 +237,12 @@ export const UserListResults = ({ users, ...rest }) => {
         </PerfectScrollbar>
         <TablePagination
           component="div"
-          count={users.length === -1 ? 0: users.length}
+          count={users.length === -1 ? 0 : users.length}
           onPageChange={handlePageChange}
           onRowsPerPageChange={handleLimitChange}
           page={page}
           rowsPerPage={limit}
           rowsPerPageOptions={[5, 10, 15]}
-
-        
         />
       </Card>
     </>

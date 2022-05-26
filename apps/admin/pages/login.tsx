@@ -22,7 +22,7 @@ const Login = () => {
 
     return (
         <>  
-            <UxFormsLogin></UxFormsLogin>
+            <UxFormsLogin authenticatedUrl="/"></UxFormsLogin>
         </>
     )
 }

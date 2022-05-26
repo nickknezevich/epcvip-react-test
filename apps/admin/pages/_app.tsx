@@ -10,16 +10,14 @@ import { useRouter } from 'next/router';
 import { getCurrentUser, authHeader, logout } from '@epcvip-react-test/auth';
 import _ from 'lodash';   
 import { UxFormsLogin }  from '@epcvip-react-test/ux/forms/login';
-import { useStateValue, StateProvider } from '../store/StateProvider'
-import  { reducer, initialState } from '../store/reducer/userReducer'
 import { SettingsInputAntennaTwoTone } from '@mui/icons-material';
+import { UsersProvider } from "../store/context/user-context";
 import { RouteGuard } from '../components/route-guard';
 
 const App = (props) => {
 
   const router = useRouter();
   const [currentUser, setCurrentUser] = useState(undefined);
-  const [state, dispatch] = useReducer(reducer, initialState);
   const ISSERVER = typeof window === "undefined";
   const { Component, pageProps } = props;
   const getLayout = Component.getLayout ?? ((page) => page);
@@ -34,14 +32,14 @@ const App = (props) => {
           content="initial-scale=1, width=device-width"
         />
       </Head>
-      <StateProvider initialState={initialState} reducer={reducer}>
+      <UsersProvider>
         <ThemeProvider theme={theme}>
           <CssBaseline />
           <RouteGuard> 
           {getLayout(<Component {...pageProps} />)}
           </RouteGuard>
         </ThemeProvider>
-      </StateProvider>
+      </UsersProvider>
     </>
   );
 };

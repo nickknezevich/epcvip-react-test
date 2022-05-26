@@ -7,12 +7,20 @@ export const initialState = {
 };
 
 export const reducer = (state, action) => {
+  
   switch (action.type) {
     case "ADD_USERS":
       return { ...state, users: action.payload };
     case "ADD_USER":
       return {
         users: [...state.users, action.payload]
+      };
+    case "UPDATE_USER":
+      let match = _.find(state.users, function(item) { return item.id === action.payload.id })
+      let index = _.findIndex(state.users, function(item) { return item.id == action.payload.id })
+      state.users[index] = action.payload
+      return {
+        users: state.users
       };
     case "DELETE_USER":
       return {

@@ -14,14 +14,14 @@ import { Alert } from '@mui/material';
 import { emit } from 'process';
 
 /* eslint-disable-next-line */
-export interface UxFormsLoginProps {}
+export interface UxFormsLoginProps {authenticatedUrl: string}
 
 export function UxFormsLogin(props: UxFormsLoginProps) {
   const router = useRouter();
   const formik = useFormik({
     initialValues: {
       email: 'nilson@email.com',
-      password: '12345',
+      password: 'nilson',
       invalidLogin: null
     },
     
@@ -42,7 +42,7 @@ export function UxFormsLogin(props: UxFormsLoginProps) {
     onSubmit: () => {
       Auth.login(formik.values.email,formik.values.password).then((response)=>{
         formik.setSubmitting(false)
-        router.push('/')
+        router.push(props.authenticatedUrl)
        }).catch((e)=>{
         formik.setSubmitting(false)
         formik.setErrors({invalidLogin: e.message });
